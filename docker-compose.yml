@@ -1,0 +1,99 @@
+
+version: '3.8'
+
+services:
+  # Microserviços
+  pedidos:
+    build: ./pedidos
+    ports:
+      - "8081:8081"
+    networks:
+      - observability
+
+  estoque:
+    build: ./estoque
+    ports:
+      - "8082:8082"
+    networks:
+      - observability
+
+  pagamento:
+    build: ./pagamento
+    ports:
+      - "8083:8083"
+    networks:
+      - observability
+
+  # ELK Stack
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    networks:
+      - observability
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.17.10
+    volumes:
+      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    ports:
+      - "5000:5000"
+    depends_on:
+      - elasticsearch
+    networks:
+      - observability
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.10
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - observability
+
+  # Prometheus e Grafana
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - observability
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - observability
+
+  # Serviço de Machine Learning
+  ml-analyzer:
+    build: ./ml_service
+    ports:
+      - "5050:5050"
+    networks:
+      - observability
+
+  # Simulador de logs
+  simulator:
+    image: python:3.10-slim
+    volumes:
+      - ./simulator:/app
+    working_dir: /app
+    command: ["python", "send_logs.py"]
+    depends_on:
+      - ml-analyzer
+    networks:
+      - observability
+
+networks:
+  observability:
+    driver: bridge

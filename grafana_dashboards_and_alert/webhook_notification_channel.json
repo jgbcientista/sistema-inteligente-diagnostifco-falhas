@@ -1,0 +1,12 @@
+{
+  "name": "latency-alert-webhook",
+  "type": "webhook",
+  "url": "http://host.docker.internal:5055/alert",
+  "isDefault": false,
+  "sendReminder": false,
+  "frequency": "10s",
+  "settings": {
+    "httpMethod": "POST",
+    "autoResolve": true
+  }
+}

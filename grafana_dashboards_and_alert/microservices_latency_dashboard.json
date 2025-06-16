@@ -1,0 +1,28 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "microservices-latency",
+    "title": "Microservices - Latency Monitor",
+    "timezone": "browser",
+    "schemaVersion": 30,
+    "version": 1,
+    "refresh": "10s",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "Average Latency by Service",
+        "targets": [
+          {
+            "expr": "avg_over_time(service_latency_seconds[1m])",
+            "legendFormat": "{{service}}",
+            "interval": "",
+            "refId": "A"
+          }
+        ],
+        "datasource": "Prometheus",
+        "id": 1
+      }
+    ]
+  },
+  "overwrite": true
+}
