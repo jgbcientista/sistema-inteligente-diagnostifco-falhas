@@ -17,10 +17,6 @@ microservices/
 ├── grafana_dashboards/ # Dashboards JSON e alertas
 └── docker-compose.yml # Arquivo unificado para subir todos os serviços
 
-yaml
-Copiar
-Editar
-
 ---
 
 ## ⚙️ Tecnologias Utilizadas
