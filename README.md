@@ -41,11 +41,8 @@ Editar
 
 ```bash
 cd C:/code/fonte/microservices
-Suba os serviços:
 
-bash
-Copiar
-Editar
+Suba os serviços:
 docker-compose up --build
 Acesse os serviços:
 
@@ -90,10 +87,4 @@ LinkedIn
 📄 Licença
 Este projeto é de uso demonstrativo e educacional para fins de seleção acadêmica e não deve ser utilizado em produção sem adaptações de segurança.
 
-yaml
-Copiar
-Editar
 
----
-
-Se quiser que eu gere novamente o `.zip`, posso tentar agora — deseja que eu reenvie? ​:contentReference[oaicite:0]{index=0}​
